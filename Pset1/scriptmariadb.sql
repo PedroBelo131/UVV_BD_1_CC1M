@@ -5,7 +5,7 @@ CREATE USER 'pedro'@localhost IDENTIFIED BY '1303' ;
 
 GRANT ALL PRIVILEGES ON *.* TO pedro@localhost;
 
------------------------------------------------------------------------------------
+
 dentro do seu usuario:
 
 mysql -u pedro  -p 
@@ -15,7 +15,8 @@ CREATE DATABASE IF NOT EXISTS uvv;
 
 USE uvv;
 
-
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+									SEGUNDA PARTE:
 CREATE TABLE funcionario (
                 cpf CHAR(11) NOT NULL,
                 numero_departamento INT NOT NULL,
