@@ -1,3 +1,5 @@
+psql -U postgres -W
+
 create user pedro with password '1303'
 
 ALTER USER pedro createdb;
@@ -11,10 +13,11 @@ template = template0
 LC_COLLATE = 'pt_BR.UTF-8'
 LC_CTYPE = 'pt_BR.UTF-8'
 ALLOW_CONNECTIONS = TRUE;
------------------------------------------------------------------------------------------
 
 psql -U pedro uvv -W
 	1303
+
+
 
 	
 CREATE SCHEMA IF NOT EXISTS elmasri 
@@ -22,6 +25,9 @@ CREATE SCHEMA IF NOT EXISTS elmasri
 
 grant ALL PRIVILEGES ON ALL tables IN SCHEMA elmasri TO pedro;
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+								SEGUNDA PARTE:
+								
 SET search_path TO elmasri, "$user", public;
 
 
