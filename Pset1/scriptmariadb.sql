@@ -1,15 +1,18 @@
+-- dentro do usuario principal:
 
 mysql -u root -p
+
+-- criar o usuario
 
 CREATE USER 'pedro'@localhost IDENTIFIED BY '1303' ;
 
 GRANT ALL PRIVILEGES ON *.* TO pedro@localhost;
 
-
-dentro do seu usuario:
-
+-- dentro do seu usuario:
 mysql -u pedro  -p 
-	1303
+	senha : 1303
+	
+-- criar o banco de dados uvv:
 
 CREATE DATABASE IF NOT EXISTS uvv;
 
