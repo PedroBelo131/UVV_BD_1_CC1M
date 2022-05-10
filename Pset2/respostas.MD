@@ -12,15 +12,29 @@
 ### prepare um relatório que liste o nome dos departamentos e, para cada departamento, inclua as seguintes informações de seus funcionários: o nome completo, a data de nascimento, a idade em anos completos e o salário.
 #### Para realizar uma projeção com todas essas informações, primeiro precisamos verificar se todos os campos que queremos exibir estão realmente criados no banco de dados. Continuando, ao verificar se todos eles existem, notamos que não há um campo específico, este campo seria a idade do funcionario, que precisamos criar essa coluna que não estava originalmente no projeto Elmasri, o comando para criar a coluna "idade" na tabela "funcionario" do projeto Elmasri e adicioná-la ao script ficara assim:
 #### "CREATE TABLE funcionario ( cpf CHAR(11) NOT NULL, numero_departamento INT NOT NULL, cpf_supervisor CHAR(11) NOT NULL, primeiro_nome VARCHAR(15) NOT NULL, nome_meio CHAR(1), ultimo_nome VARCHAR(15) NOT NULL, data_nascimento DATE, endereco VARCHAR(40), idade INTEGER, <---- sexo CHAR(1), salario DECIMAL(10,2), PRIMARY KEY (cpf) );"
+
 #### Feito isso, passando para a projeção das informações, devemos agora calcular a diferença de data entre hoje e a data de nascimento de cada funcionário registrado. Isso nos dará uma ideia aproximada da idade calculada do funcionário. Com isso, repetiremos os seguintes comandos para todos os funcionários:
 #### "SELECT datediff ('2022-05-02','1965-01-09')/365 AS 'Idade_João';"
 
+#### Este comando utiliza a propriedade 'datediff
+#### Agora com todos esses numeros anotados vamos utilizar outro comando pois os numeros que o mariaDB nos entregou veio quebrado e precisamos de numeros inteiros o comando ficara assim:
+#### "SELECT ceil(valor) FROM tabela WHERE <coluna_da_condição> = <valor_da_condição>;"
+#### Ao adicionar nossas informações que conseguimos com o primeiro codigo o comando ficara assim:
+#### "SELECT ceil(57.3479) FROM funcionario WHERE primeiro_nome = 'João';"
+#### Onde 57.3479 é os anos que o comando DATEDIFF nos retornou, funcionario sendo a tabela e primeiro_nome a coluna onde a condição é que o primeiro nome é = a João
+#### Isso retornará a idade em numeros inteiros que no caso de João é 58, após fazer esse comando para todos os funcionarios vamos atualizar os dados presentes na tabela para que fique mais facil exibir no final todos os dados, o comando que vamos utilizar vai ser: 
+#### UPDATE funcionario SET idade = '58' WHERE primeiro_nome = 'João';
+#### onde idade é o nome da coluna que vamos adicionar as idades de cada funcionario primeiro_nome a coluna que vamos correlacionar e a condição vai ser o nome do funcionario que vamos por a sua idade.
+#### Por fim, só é necessário projetar as informações que o relatorio solicita, para isso vamos precisar juntar uma tabela a outra atraves do comando "INNER JOIN" o comando ficara assim:
 
-
+#### "SELECT CONCAT(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) AS "nome_completo", departamento.nome_departamento, funcionario.data_nascimento, funcionario.idade, funcionario.salario FROM departamento INNER JOIN funcionario ON departamento.numero_departamento = funcionario.numero_departamento;"
+#### este comando fara com que nos retorne uma projeção das duas tabelas mostrando todas as informações necessárias.
 
 ## QUESTÃO 04: 
 ### prepare um relatório que mostre o nome completo dos funcionários, a idade em anos completos, o salário atual e o salário com um reajuste que obedece ao seguinte critério: se o salário atual do funcionário é inferior a 35.000 o reajuste deve ser de 20%, e se o salário atual do funcionário for igual ou superior a 35.000 o reajuste deve ser de 15%.
 ####
+
+
 
 ## QUESTÃO 05: 
 ### prepare um relatório que liste, para cada departamento, o nome do gerente e o nome dos funcionários. Ordene esse relatório por nome do departamento (em ordem crescente) e por salário dos funcionários (em ordem decrescente).
