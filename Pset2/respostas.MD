@@ -75,7 +75,7 @@
 
 #### Geralmente, quando realmente queremos unir tabelas ou funções SELECT entre si, usamos o comando UNION, mas haverá informações duplicadas, e o comando UNION nos limita a ter que selecionar o mesmo número de tabelas para que possamos prosseguir com a união. No entanto, o mesmo resultado pode ser obtido usando a função JOIN do MySQL, neste caso, para vincular as tabelas com sua chave comum, usamos INNER JOIN e LEFT JOIN para que determinem quais tabelas não precisam ser exibidas no momento da exibição, mas que precisam estar ali para conectar as informações de uma tabelas a outra.
 
-#### Infelizmente, não há muito para detalhar este código, pois é uma junção de JOIN's com um comando SELECT e suas colunas selecionadas. No entanto, é possivel mostrar o formato das estruturas, que ficara desta forma:
+#### Infelizmente, não há muito para detalhar este código, pois é uma junção de JOIN's com um comando SELECT e suas colunas selecionadas. No entanto, é possivel mostrar o formato das estruturas, o comando ficara desta forma:
 
 #### "SELECT departamento.nome_departamento, CONCAT(funcionario.primeiro_nome, " ",funcionario.nome_meio, " ",funcionario.ultimo_nome) AS nome_completo_funcionario, CONCAT(dependente.nome_dependente, " ",funcionario.nome_meio, " ",funcionario.ultimo_nome) AS nome_completo_dependente, year(curdate()) - year(dependente.data_nascimento) AS idade_dependente, CASE dependente.sexo WHEN 'M' THEN 'Masculino' WHEN 'F' THEN 'Feminino' END AS sexo_dependente FROM dependente LEFT JOIN funcionario ON (dependente.cpf_funcionario=funcionario.cpf) INNER JOIN departamento ON (funcionario.numero_departamento=departamento.numero_departamento);"
 
