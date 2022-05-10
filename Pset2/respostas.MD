@@ -32,8 +32,19 @@
 
 ## QUESTÃO 04: 
 ### prepare um relatório que mostre o nome completo dos funcionários, a idade em anos completos, o salário atual e o salário com um reajuste que obedece ao seguinte critério: se o salário atual do funcionário é inferior a 35.000 o reajuste deve ser de 20%, e se o salário atual do funcionário for igual ou superior a 35.000 o reajuste deve ser de 15%.
-####
 
+#### Antes de tudo para exibirmos o reajuste de salario junto com as outras informações vamos precisar criar a coluna reajuste de salário dentro da tabela funcionario para guardar os dados dos reajustes salariais. Para isso vamos usar o comando de "ALTER TABLE" para adicionar a coluna "salario_reajustado" a tabela funcionario, o comando ficarra assim:
+#### "ALTER TABLE funcionario ADD COLUMN salario_reajustado decimal(10,2);"
+#### é importante ver que os dados como decimal devem ser iguais aos da coluna salario para que não ocorra erro na hora da projeção.
+
+#### Continuando, agora precisamos inserir o conteúdo dos dados nesta nova coluna para registrar o novo valor salarial reajustado. Como criamos a coluna 'salario_reajustado', mas nenhum dado foi inserido, todas as tuplas são NULL. Para inserir dados em tuplas NULL, usaremos comandos básicos de manipulação de dados do MySQL. A função que utilizaremos no nosso comando é UPDATE e realiza uma atualização no valor da coluna criada na tabela fornecida, além de usar o comando para inserir novos valores na coluna 'salario_reajustado', usaremos operadores SQL para verificar o valor do salário e seguir nossas instruções para decidir por qual salário multiplicar. Este operador chama-se CASE e iremos utilizar o comando da seguinte forma:
+
+#### "UPDATE funcionario SET salario_reajustado= CASE WHEN salario < 35000 THEN salario * 1.20 WHEN salario >= 35000 THEN salario * 1.15 END;"
+
+#### O funcionamento da função "CASE" é determinado pelas condições nela especificadas. Nesse caso, a condição é representada pela função "WHEN" que significa que quando algo acontecer é para acontecer outra coisa. Com essa estrutura de código, informamos ao comando UPDATE para atualizar a coluna 'salario_reajustado' quando o valor do salário for menor que 35000, preencha a coluna com o resultado da operação matemática de aumento de 20%, e quando for maior ou igual para 35.000, com um aumento de apenas 15% no preenchimento da coluna. Por fim, agora só precisamos usar o comando SELECT para exibir as informações que queremos, usando CONCAT para unir primeiro_nome, nome_meio, ultimo_nome para forma uma coluna só "nome_completo" o comando ficara assim:
+
+#### SELECT CONCAT(primeiro_nome, " ", nome_meio, " ", ultimo_nome) AS "nome_completo", idade, salario, salario_reajustado FROM funcionario;
+#### Assim eexibindo todas as informações requeridas no relatório.
 
 
 ## QUESTÃO 05: 
