@@ -68,21 +68,24 @@
 #### SELECT * FROM (SELECT departamento.nome_departamento, CONCAT(funcionario.primeiro_nome, " ", funcionario.nome_meio, ". ",funcionario.ultimo_nome) AS nome_completo_funcionario FROM departamento INNER JOIN funcionario ON departamento.numero_departamento=funcionario.numero_departamento WHERE NOT cpf_gerente = cpf ORDER BY salario desc) AS funcionario;"
 ============================================================================================
 
-## QUESTÃO 06: X
+## QUESTÃO 06:
 ### prepare um relatório que mostre o nome completo dos funcionários que têm dependentes, o departamento onde eles trabalham e, para cada funcionário, também liste o nome completo dos dependentes, a idade em anos de cada dependente e o sexo (o sexo NÃO DEVE aparecer como M ou F, deve aparecer como “Masculino” ou “Feminino”).
 
-####
-####
-####
+#### Primeiro, precisamos selecionar todas as colunas para especificar a tabela na qual precisamos exibir as informações. Portanto, esta seleção pode ser feita usando o comando SELECT que aparece principalmente no vocabulário MySQL. No entanto, você também deve escolher uma chave comum para identificar os dois conjuntos, pois ambas as seleções usam dados de várias tabelas. Assim, após listar todas as colunas que queremos exibir junto ao comando SELECT, é necessário vinculá-las com uma chave comum para que as informações apareçam juntas no display.
+
+#### Geralmente, quando realmente queremos unir tabelas ou funções SELECT entre si, usamos o comando UNION, mas haverá informações duplicadas, e o comando UNION nos limita a ter que selecionar o mesmo número de tabelas para que possamos prosseguir com a união. No entanto, o mesmo resultado pode ser obtido usando a função JOIN do MySQL, neste caso, para vincular as tabelas com sua chave comum, usamos INNER JOIN e LEFT JOIN para que determinem quais tabelas não precisam ser exibidas no momento da exibição, mas que precisam estar ali para conectar as informações de uma tabelas a outra.
+
+#### Infelizmente, não há muito para detalhar este código, pois é uma junção de JOIN's com um comando SELECT e suas colunas selecionadas. No entanto, é possivel mostrar o formato das estruturas, que ficara desta forma:
+
 #### "SELECT departamento.nome_departamento, CONCAT(funcionario.primeiro_nome, " ",funcionario.nome_meio, " ",funcionario.ultimo_nome) AS nome_completo_funcionario, CONCAT(dependente.nome_dependente, " ",funcionario.nome_meio, " ",funcionario.ultimo_nome) AS nome_completo_dependente, year(curdate()) - year(dependente.data_nascimento) AS idade_dependente, CASE dependente.sexo WHEN 'M' THEN 'Masculino' WHEN 'F' THEN 'Feminino' END AS sexo_dependente FROM dependente LEFT JOIN funcionario ON (dependente.cpf_funcionario=funcionario.cpf) INNER JOIN departamento ON (funcionario.numero_departamento=departamento.numero_departamento);"
 
 
 ## QUESTÃO 07: X
 ### prepare um relatório que mostre, para cada funcionário que NÃO TEM dependente, seu nome completo, departamento e salário.
 
-
-
 #### "select departamento.nome_departamento, concat(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) as nome_completo_funcionario, funcionario.salario from funcionario -> left join dependente on funcionario.cpf = dependente.cpf_funcionario -> inner join departamento on funcionario.numero_departamento = departamento.numero_departamento -> where dependente.cpf_funcionario is null;"
+
+
 
 
 
