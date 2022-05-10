@@ -10,14 +10,63 @@
 
 ## QUESTÃO 03: 
 ### prepare um relatório que liste o nome dos departamentos e, para cada departamento, inclua as seguintes informações de seus funcionários: o nome completo, a data de nascimento, a idade em anos completos e o salário.
-####
+#### Para realizar uma projeção com todas essas informações, primeiro precisamos verificar se todos os campos que queremos exibir estão realmente criados no banco de dados. Continuando, ao verificar se todos eles existem, notamos que não há um campo específico, este campo seria a idade do funcionario, que precisamos criar essa coluna que não estava originalmente no projeto Elmasri, o comando para criar a coluna "idade" na tabela "funcionario" do projeto Elmasri e adicioná-la ao script ficara assim:
+#### "CREATE TABLE funcionario ( cpf CHAR(11) NOT NULL, numero_departamento INT NOT NULL, cpf_supervisor CHAR(11) NOT NULL, primeiro_nome VARCHAR(15) NOT NULL, nome_meio CHAR(1), ultimo_nome VARCHAR(15) NOT NULL, data_nascimento DATE, endereco VARCHAR(40), idade INTEGER, <---- sexo CHAR(1), salario DECIMAL(10,2), PRIMARY KEY (cpf) );"
+#### Feito isso, passando para a projeção das informações, devemos agora calcular a diferença de data entre hoje e a data de nascimento de cada funcionário registrado. Isso nos dará uma ideia aproximada da idade calculada do funcionário. Com isso, repetiremos os seguintes comandos para todos os funcionários:
+#### "SELECT datediff ('2022-05-02','1965-01-09')/365 AS 'Idade_João';"
+
+
+
 
 ## QUESTÃO 04: 
 ### prepare um relatório que mostre o nome completo dos funcionários, a idade em anos completos, o salário atual e o salário com um reajuste que obedece ao seguinte critério: se o salário atual do funcionário é inferior a 35.000 o reajuste deve ser de 20%, e se o salário atual do funcionário for igual ou superior a 35.000 o reajuste deve ser de 15%.
+####
+
 ## QUESTÃO 05: 
 ### prepare um relatório que liste, para cada departamento, o nome do gerente e o nome dos funcionários. Ordene esse relatório por nome do departamento (em ordem crescente) e por salário dos funcionários (em ordem decrescente).
+
+#### Para obter os resultados necessários, são necessárias várias seleções, incluindo seleções com características um pouco específicas, para que os valores não se repitam quando não precisam ser repetidos em diferentes partes da coluna. A primeira seleção de uma seleção é usado para filtrar quais gerentes estão, em qual Departamento trabalha e exibe essas informações em um INNER JOIN que especifique as restrições. Então a seleção ficara assim:
+
+#### "SELECT * FROM (SELECT CONCAT("Gerente do departamento ", departamento.nome_departamento) AS nome_departamento, CONCAT(funcionario.primeiro_nome, " ",funcionario.nome_meio, ". ",funcionario.ultimo_nome) AS nome_completo_funcionario FROM departamento INNER JOIN funcionario ON departamento.numero_departamento = funcionario.numero_departamento WHERE cpf_gerente = cpf ORDER BY nome_departamento asc) AS gerente"
+
+#### Observe que a ordem de exibição também precisará ser especificada usando o comando ORDER BY no final deste código para atender às restrições de ordem exigidas pelo relatorio. Observe também que neste caso o comando WHERE limita os resultados encontrados se o cpf do gerente deve ser igual ao cpf do funcionário, permitindo que INNER JOIN aconteça sem duplicação de cpfs. No entanto, agora que selecionamos o que queremos desse comando SELECT, precisamos recuperar o resultado dele e adicioná-lo aos outros resultados da segunda seleção, que ainda não mostrei. Então, apenas colocamos um comando UNION entre eles que concatenará os dois resultados do comando SELECT: 
+
+#### Agora, para completar a união, é necessária outra parte do resultado de outro SELECT, que é a segunda parte a ser digitada. Este SELECT tem a capacidade de agrupar as mesmas informações que foram agrupadas pelo primeiro SELECT, mas desta vez só precisa exibir cpfs que não são de propriedade do gerente, pois isso é feito pelo primeiro comando SELECT. Deste jeito o comando ficara assim:
+
+#### "SELECT * FROM (SELECT departamento.nome_departamento, CONCAT(funcionario.primeiro_nome, " ", funcionario.nome_meio, ". ",funcionario.ultimo_nome) AS nome_completo_funcionario FROM departamento INNER JOIN funcionario ON departamento.numero_departamento=funcionario.numero_departamento WHERE NOT cpf_gerente = cpf ORDER BY salario desc) AS funcionario;"
+
+#### Por fim, este SELECT também possui a funcionalidade ORDER BY, mas agora está configurado para classificar todos os salários na tabela de funcionários em ordem decrescente. Além disso, como a função desse SELECT é exibir todos os cpfs que não são de gerente, o comando WHERE retorna, mas desta vez na forma de WHERE NOT especificando que o SELECT aplica-se apenas nas tuplas em que coluna cpf_gerente é diferente da coluna cpf, da tabela de funcionários. Para resumir, basta juntar os dois comandos SELECT e colocar o comando UNION no meio entre eles para a união e projeção desejada, o comando ficara assim:
+
+============================================================================================
+#### "SELECT * FROM (SELECT CONCAT("Gerente do departamento ", departamento.nome_departamento) AS nome_departamento, CONCAT(funcionario.primeiro_nome, " ",funcionario.nome_meio, ". ",funcionario.ultimo_nome) AS nome_completo_funcionario FROM departamento INNER JOIN funcionario ON departamento.numero_departamento = funcionario.numero_departamento WHERE cpf_gerente = cpf ORDER BY nome_departamento asc) AS gerente 
+### UNION 
+#### SELECT * FROM (SELECT departamento.nome_departamento, CONCAT(funcionario.primeiro_nome, " ", funcionario.nome_meio, ". ",funcionario.ultimo_nome) AS nome_completo_funcionario FROM departamento INNER JOIN funcionario ON departamento.numero_departamento=funcionario.numero_departamento WHERE NOT cpf_gerente = cpf ORDER BY salario desc) AS funcionario;"
+============================================================================================
+
 ## QUESTÃO 06: 
 ### prepare um relatório que mostre o nome completo dos funcionários que têm dependentes, o departamento onde eles trabalham e, para cada funcionário, também liste o nome completo dos dependentes, a idade em anos de cada dependente e o sexo (o sexo NÃO DEVE aparecer como M ou F, deve aparecer como “Masculino” ou “Feminino”).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## QUESTÃO 07: 
 ### prepare um relatório que mostre, para cada funcionário que NÃO TEM dependente, seu nome completo, departamento e salário.
 ## QUESTÃO 08: 
