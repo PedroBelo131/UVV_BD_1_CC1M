@@ -68,34 +68,42 @@
 #### SELECT * FROM (SELECT departamento.nome_departamento, CONCAT(funcionario.primeiro_nome, " ", funcionario.nome_meio, ". ",funcionario.ultimo_nome) AS nome_completo_funcionario FROM departamento INNER JOIN funcionario ON departamento.numero_departamento=funcionario.numero_departamento WHERE NOT cpf_gerente = cpf ORDER BY salario desc) AS funcionario;"
 ============================================================================================
 
-## QUESTÃO 06: 
+## QUESTÃO 06: X
 ### prepare um relatório que mostre o nome completo dos funcionários que têm dependentes, o departamento onde eles trabalham e, para cada funcionário, também liste o nome completo dos dependentes, a idade em anos de cada dependente e o sexo (o sexo NÃO DEVE aparecer como M ou F, deve aparecer como “Masculino” ou “Feminino”).
 
+####
+####
+####
+#### "SELECT departamento.nome_departamento, CONCAT(funcionario.primeiro_nome, " ",funcionario.nome_meio, " ",funcionario.ultimo_nome) AS nome_completo_funcionario, CONCAT(dependente.nome_dependente, " ",funcionario.nome_meio, " ",funcionario.ultimo_nome) AS nome_completo_dependente, year(curdate()) - year(dependente.data_nascimento) AS idade_dependente, CASE dependente.sexo WHEN 'M' THEN 'Masculino' WHEN 'F' THEN 'Feminino' END AS sexo_dependente FROM dependente LEFT JOIN funcionario ON (dependente.cpf_funcionario=funcionario.cpf) INNER JOIN departamento ON (funcionario.numero_departamento=departamento.numero_departamento);"
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## QUESTÃO 07: 
+## QUESTÃO 07: X
 ### prepare um relatório que mostre, para cada funcionário que NÃO TEM dependente, seu nome completo, departamento e salário.
-## QUESTÃO 08: 
+
+
+
+#### "select departamento.nome_departamento, concat(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) as nome_completo_funcionario, funcionario.salario from funcionario -> left join dependente on funcionario.cpf = dependente.cpf_funcionario -> inner join departamento on funcionario.numero_departamento = departamento.numero_departamento -> where dependente.cpf_funcionario is null;"
+
+
+
+## QUESTÃO 08: X
 ### prepare um relatório que mostre, para cada departamento, os projetos desse departamento e o nome completo dos funcionários que estão alocados em cada projeto. Além disso inclua o número de horas trabalhadas por cada funcionário, em cada projeto.
+
+
+#### "select * from
+(select da sum(de um select que tenha apenas o número de horas trabalhadas por cada funcionario))
+
+
+select concat("Departamento ", departamento.numero_departamento, " ", departamento.nome_departamento) as departamento_e_nome, projeto.nome_projeto, concat(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) as nome_completo_funcionario, trabalha_em.horas from funcionario
+-> inner join departamento on funcionario.numero_departamento = departamento.numero_departamento
+-> inner join projeto as p on departamento.numero_departamento = p.numero_departamento
+-> inner join trabalha_em on funcionario.cpf = trabalha_em.cpf_funcionario
+-> inner join projeto on trabalha_em.numero_projeto = projeto.numero_projeto
+-> where funcionario.numero_departamento = projeto.numero_departamento; ---> código que dá 22 rows, com repetidas."
+
+
+
+
 ## QUESTÃO 09: 
 ### prepare um relatório que mostre a soma total das horas de cada projeto em cada departamento. Obs.: o relatório deve exibir o nome do departamento, o nome do projeto e a soma total das horas.
 ## QUESTÃO 10: 
