@@ -86,38 +86,35 @@
 #### "select departamento.nome_departamento, concat(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) as nome_completo_funcionario, funcionario.salario from funcionario -> left join dependente on funcionario.cpf = dependente.cpf_funcionario -> inner join departamento on funcionario.numero_departamento = departamento.numero_departamento -> where dependente.cpf_funcionario is null;"
 
 
-
-
-
 ## QUESTÃO 08: X
 ### prepare um relatório que mostre, para cada departamento, os projetos desse departamento e o nome completo dos funcionários que estão alocados em cada projeto. Além disso inclua o número de horas trabalhadas por cada funcionário, em cada projeto.
 
-
-#### "select * from
-(select da sum(de um select que tenha apenas o número de horas trabalhadas por cada funcionario))
+#### "SELECT CONCAT("Departamento ", departamento.numero_departamento, " ", departamento.nome_departamento) AS departamento_e_nome, projeto.nome_projeto, CONCAT(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) AS nome_completo_funcionario, trabalha_em.horas FROM funcionario INNER JOIN departamento ON funcionario.numero_departamento = departamento.numero_departamento INNER JOIN projeto AS p ON departamento.numero_departamento = p.numero_departamento INNER JOIN trabalha_em ON funcionario.cpf = trabalha_em.cpf_funcionario INNER JOIN projeto ON trabalha_em.numero_projeto = projeto.numero_projeto WHERE funcionario.numero_departamento = projeto.numero_departamento GROUP BY departamento_e_nome, nome_projeto, nome_completo_funcionario, horas;"
 
 
-select concat("Departamento ", departamento.numero_departamento, " ", departamento.nome_departamento) as departamento_e_nome, projeto.nome_projeto, concat(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) as nome_completo_funcionario, trabalha_em.horas from funcionario
--> inner join departamento on funcionario.numero_departamento = departamento.numero_departamento
--> inner join projeto as p on departamento.numero_departamento = p.numero_departamento
--> inner join trabalha_em on funcionario.cpf = trabalha_em.cpf_funcionario
--> inner join projeto on trabalha_em.numero_projeto = projeto.numero_projeto
--> where funcionario.numero_departamento = projeto.numero_departamento; ---> código que dá 22 rows, com repetidas."
-
-
-
-
-## QUESTÃO 09: 
+## QUESTÃO 09: X
 ### prepare um relatório que mostre a soma total das horas de cada projeto em cada departamento. Obs.: o relatório deve exibir o nome do departamento, o nome do projeto e a soma total das horas.
+
+#### "SELECT DISTINCT departamento.nome_departamento, projeto.nome_projeto, sum(trabalha_em.horas) AS soma_das_horas FROM (departamento, projeto, trabalha_em) INNER JOIN departamento AS d ON (projeto.numero_departamento = d.numero_departamento) INNER JOIN trabalha_em AS tb ON (projeto.numero_projeto = tb.numero_projeto) GROUP BY nome_projeto, nome_departamento;"
+
+
 ## QUESTÃO 10: 
 ### prepare um relatório que mostre a média salarial dos funcionários de cada departamento.
-## QUESTÃO 11: 
+### A questão 10 esta repetindo a questão 1 a resposta ficara:
+#### "select avg(salario) from funcionario;" sera exibido a media salarial dos funcionarios que é de: 35125.00
+
+
+## QUESTÃO 11: X
 ### considerando que o valor pago por hora trabalhada em um projeto é de 50 reais, prepare um relatório que mostre o nome completo do funcionário, o nome do projeto e o valor total que o funcionário receberá referente às horas trabalhadas naquele projeto.
-## QUESTÃO 12: 
+
+## QUESTÃO 12: X
 ### seu chefe está verificando as horas trabalhadas pelos funcionários nos projetos e percebeu que alguns funcionários, mesmo estando alocadas à algum projeto, não registraram nenhuma hora trabalhada. Sua tarefa é preparar um relatório que liste o nome do departamento, o nome do projeto e o nome dos funcionários que, mesmo estando alocados a algum projeto, não registraram nenhuma hora trabalhada.
-## QUESTÃO 13: 
+
+## QUESTÃO 13: X
 ### durante o natal deste ano a empresa irá presentear todos os funcionários e todos os dependentes (sim, a empresa vai dar um presente para cada funcionário e um presente para cada dependente de cada funcionário) e pediu para que você preparasse um relatório que listasse o nome completo das pessoas a serem presenteadas (funcionários e dependentes), o sexo e a idade em anos completos (para poder comprar um presente adequado). Esse relatório deve estar ordenado pela idade em anos completos, de forma decrescente.
-## QUESTÃO 14: 
+
+## QUESTÃO 14: X
 ### prepare um relatório que exiba quantos funcionários cada departamento tem.
-## QUESTÃO 15: 
+
+## QUESTÃO 15: X
 ### como um funcionário pode estar alocado em mais de um projeto, prepare um relatório que exiba o nome completo do funcionário, o departamento desse funcionário e o nome dos projetos em que cada funcionário está alocado. Atenção: se houver algum funcionário que não está alocado em nenhum projeto, o nome completo e o departamento também devem aparecer no relatório.
