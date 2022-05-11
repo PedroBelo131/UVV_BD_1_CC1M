@@ -4,9 +4,28 @@
 ### prepare um relatório que mostre a média salarial dos funcionários de cada departamento.
 #### Ao utilizar o comando : "select avg(salario) from funcionario;" sera exibido a media salarial dos funcionarios que é de: 35125.00
 
+#### Tabela a ser exibida:
+| avg(salario) |
+|--------------|
+| 35125.000000 |
+
+
 ## QUESTÃO 02: 
 ### prepare um relatório que mostre a média salarial dos homens e das mulheres.
-#### Para conseguir ver a media salarial das funcionarias mulheres utilizamos o codigo "select (sum(salario)/count(*)) as media from funcionario where sexo = 'F';" e sera exibido a media salarial das mulheres. Agora para ver a media salarial dos homens basta apenas trocar a variável de valor 'F' para 'M' O comando ficará : "select (sum(salario)/count(*)) as media from funcionario where sexo = 'M';" e a média que será mostrada é de: 37.600,00.
+#### Para conseguir ver a media salarial das funcionarias mulheres utilizamos o codigo "select (sum(salario)/count(*)) as media_feminina from funcionario where sexo = 'F';" e sera exibido a media salarial das mulheres. Agora para ver a media salarial dos homens basta apenas trocar a variável de valor 'F' para 'M' O comando ficará : "select (sum(salario)/count(*)) as media_masculina from funcionario where sexo = 'M';" e a média que será mostrada é de: 37.600,00.
+
+#### Tabela feminina
+| media_feminina |
+|----------------|
+|   31000.000000 |
+
+#### Tabela masculina
+
+| media_masculina |
+|-----------------|
+|    37600.000000 |
+
+
 
 ## QUESTÃO 03: 
 ### prepare um relatório que liste o nome dos departamentos e, para cada departamento, inclua as seguintes informações de seus funcionários: o nome completo, a data de nascimento, a idade em anos completos e o salário.
@@ -29,6 +48,8 @@
 
 #### "SELECT CONCAT(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) AS "nome_completo", departamento.nome_departamento, funcionario.data_nascimento, funcionario.idade, funcionario.salario FROM departamento INNER JOIN funcionario ON departamento.numero_departamento = funcionario.numero_departamento;"
 #### este comando fara com que nos retorne uma projeção das duas tabelas mostrando todas as informações necessárias.
+#### A tabela ficara assim:
+
 
 ## QUESTÃO 04: 
 ### prepare um relatório que mostre o nome completo dos funcionários, a idade em anos completos, o salário atual e o salário com um reajuste que obedece ao seguinte critério: se o salário atual do funcionário é inferior a 35.000 o reajuste deve ser de 20%, e se o salário atual do funcionário for igual ou superior a 35.000 o reajuste deve ser de 15%.
@@ -68,6 +89,21 @@
 #### SELECT * FROM (SELECT departamento.nome_departamento, CONCAT(funcionario.primeiro_nome, " ", funcionario.nome_meio, ". ",funcionario.ultimo_nome) AS nome_completo_funcionario FROM departamento INNER JOIN funcionario ON departamento.numero_departamento=funcionario.numero_departamento WHERE NOT cpf_gerente = cpf ORDER BY salario desc) AS funcionario;"
 ============================================================================================
 
+#### A tabela retornara assim:
+
+| nome_departamento                       | nome_completo_funcionario |
+|-----------------------------------------|---------------------------|
+| Gerente do departamento Matriz          | Jorge E. Brito            |
+| Gerente do departamento Administração   | Jennifer S. Souza         |
+| Gerente do departamento Pesquisa        | Fernando T. Wong          |
+| Pesquisa                                | João B. Silva             |
+| Pesquisa                                | Joice A. Leite            |
+| Pesquisa                                | Ronaldo K. Lima           |
+| Administração                           | André V. Pereira          |
+| Administração                           | Alice J. Zelaya           |
+
+
+
 ## QUESTÃO 06:
 ### prepare um relatório que mostre o nome completo dos funcionários que têm dependentes, o departamento onde eles trabalham e, para cada funcionário, também liste o nome completo dos dependentes, a idade em anos de cada dependente e o sexo (o sexo NÃO DEVE aparecer como M ou F, deve aparecer como “Masculino” ou “Feminino”).
 
@@ -79,11 +115,33 @@
 
 #### "SELECT departamento.nome_departamento, CONCAT(funcionario.primeiro_nome, " ",funcionario.nome_meio, " ",funcionario.ultimo_nome) AS nome_completo_funcionario, CONCAT(dependente.nome_dependente, " ",funcionario.nome_meio, " ",funcionario.ultimo_nome) AS nome_completo_dependente, year(curdate()) - year(dependente.data_nascimento) AS idade_dependente, CASE dependente.sexo WHEN 'M' THEN 'Masculino' WHEN 'F' THEN 'Feminino' END AS sexo_dependente FROM dependente LEFT JOIN funcionario ON (dependente.cpf_funcionario=funcionario.cpf) INNER JOIN departamento ON (funcionario.numero_departamento=departamento.numero_departamento);"
 
+#### A tabela retornara assim:
+
+| nome_departamento | nome_completo_funcionario | nome_completo_dependente | idade_dependente | sexo_dependente |
+|-------------------|---------------------------|--------------------------|------------------|-----------------|
+| Pesquisa          | João B Silva              | Alicia B Silva           |               34 | Feminino        |
+| Pesquisa          | João B Silva              | Elizabeth B Silva        |               55 | Feminino        |
+| Pesquisa          | João B Silva              | Michael B Silva          |               34 | Masculino       |
+| Pesquisa          | Fernando T Wong           | Alicia T Wong            |               36 | Feminino        |
+| Pesquisa          | Fernando T Wong           | Janaina T Wong           |               64 | Feminino        |
+| Pesquisa          | Fernando T Wong           | Tiago T Wong             |               39 | Masculino       |
+| Administração     | Jennifer S Souza          | Antonio S Souza          |               80 | Masculino       |
+
 
 ## QUESTÃO 07: X
 ### prepare um relatório que mostre, para cada funcionário que NÃO TEM dependente, seu nome completo, departamento e salário.
 
-#### "select departamento.nome_departamento, concat(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) as nome_completo_funcionario, funcionario.salario from funcionario -> left join dependente on funcionario.cpf = dependente.cpf_funcionario -> inner join departamento on funcionario.numero_departamento = departamento.numero_departamento -> where dependente.cpf_funcionario is null;"
+#### "SELECT departamento.nome_departamento, CONCAT(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) AS nome_completo_funcionario, funcionario.salario FROM funcionario LEFT JOIN dependente ON funcionario.cpf = dependente.cpf_funcionario INNER JOIN departamento ON funcionario.numero_departamento = departamento.numero_departamento WHERE dependente.cpf_funcionario IS null;"
+
+#### A tabela retornara assim:
+
+| nome_departamento | nome_completo_funcionario | salario  |
+|-------------------|---------------------------|----------|
+| Pesquisa          | Joice A Leite             | 25000.00 |
+| Pesquisa          | Ronaldo K Lima            | 38000.00 |
+| Matriz            | Jorge E Brito             | 55000.00 |
+| Administração     | André V Pereira           | 25000.00 |
+| Administração     | Alice J Zelaya            | 25000.00 |
 
 
 ## QUESTÃO 08: X
@@ -91,11 +149,52 @@
 
 #### "SELECT CONCAT("Departamento ", departamento.numero_departamento, " ", departamento.nome_departamento) AS departamento_e_nome, projeto.nome_projeto, CONCAT(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) AS nome_completo_funcionario, trabalha_em.horas FROM funcionario INNER JOIN departamento ON funcionario.numero_departamento = departamento.numero_departamento INNER JOIN projeto AS p ON departamento.numero_departamento = p.numero_departamento INNER JOIN trabalha_em ON funcionario.cpf = trabalha_em.cpf_funcionario INNER JOIN projeto ON trabalha_em.numero_projeto = projeto.numero_projeto WHERE funcionario.numero_departamento = projeto.numero_departamento GROUP BY departamento_e_nome, nome_projeto, nome_completo_funcionario, horas;"
 
+#### A tabela retornara assim:
+
+| departamento_e_nome            | nome_projeto    | nome_completo_funcionario | horas |
++--------------------------------+-----------------+---------------------------+-------+
+| Departamento 1 Matriz          | Reorganização   | Jorge E Brito             |   0.0 |
+| Departamento 4 Administração   | Informação      | Alice J Zelaya            |  10.0 |
+| Departamento 4 Administração   | Informação      | André V Pereira           |  35.0 |
+| Departamento 4 Administração   | Novosbeneficios | Alice J Zelaya            |  30.0 |
+| Departamento 4 Administração   | Novosbeneficios | André V Pereira           |   5.0 |
+| Departamento 4 Administração   | Novosbeneficios | Jennifer S Souza          |  20.0 |
+| Departamento 5 Pesquisa        | ProdutoX        | João B Silva              |  32.5 |
+| Departamento 5 Pesquisa        | ProdutoX        | Joice A Leite             |  20.0 |
+| Departamento 5 Pesquisa        | ProdutoY        | Fernando T Wong           |  10.0 |
+| Departamento 5 Pesquisa        | ProdutoY        | João B Silva              |   7.5 |
+| Departamento 5 Pesquisa        | ProdutoY        | Joice A Leite             |  20.0 |
+
+
 
 ## QUESTÃO 09: XV
 ### prepare um relatório que mostre a soma total das horas de cada projeto em cada departamento. Obs.: o relatório deve exibir o nome do departamento, o nome do projeto e a soma total das horas.
 
 #### "SELECT DISTINCT departamento.nome_departamento, projeto.nome_projeto, sum(trabalha_em.horas) AS soma_das_horas FROM (departamento, projeto, trabalha_em) INNER JOIN departamento AS d ON (projeto.numero_departamento = d.numero_departamento) INNER JOIN trabalha_em AS tb ON (projeto.numero_projeto = tb.numero_projeto) GROUP BY nome_projeto, nome_departamento;"
+
+#### A tabela retornara assim:
+
+| nome_departamento | nome_projeto    | soma_das_horas |
+|-------------------|-----------------|----------------|
+| Administração     | Informação      |          825.0 |
+| Matriz            | Informação      |          825.0 |
+| Pesquisa          | Informação      |          825.0 |
+| Administração     | Novosbeneficios |          825.0 |
+| Matriz            | Novosbeneficios |          825.0 |
+| Pesquisa          | Novosbeneficios |          825.0 |
+| Administração     | ProdutoX        |          550.0 |
+| Matriz            | ProdutoX        |          550.0 |
+| Pesquisa          | ProdutoX        |          550.0 |
+| Administração     | ProdutoY        |          825.0 |
+| Matriz            | ProdutoY        |          825.0 |
+| Pesquisa          | ProdutoY        |          825.0 |
+| Administração     | ProdutoZ        |          550.0 |
+| Matriz            | ProdutoZ        |          550.0 |
+| Pesquisa          | ProdutoZ        |          550.0 |
+| Administração     | Reorganização   |          825.0 |
+| Matriz            | Reorganização   |          825.0 |
+| Pesquisa          | Reorganização   |          825.0 |
+
 
 
 ## QUESTÃO 10: 
@@ -103,25 +202,166 @@
 ### A questão 10 esta repetindo a questão 1 a resposta ficara:
 #### "select avg(salario) from funcionario;" sera exibido a media salarial dos funcionarios que é de: 35125.00
 
+#### Tabela a ser exibida:
+| avg(salario) |
+|--------------|
+| 35125.000000 |
+
 
 ## QUESTÃO 11: XV
 ### considerando que o valor pago por hora trabalhada em um projeto é de 50 reais, prepare um relatório que mostre o nome completo do funcionário, o nome do projeto e o valor total que o funcionário receberá referente às horas trabalhadas naquele projeto.
 
 #### "select concat(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) as nome_completo_funcionario, projeto.nome_projeto, trabalha_em.horas, sum(trabalha_em.horas)*0.50 as recebimento_horas from (funcionario, projeto, trabalha_em) inner join departamento as d on (projeto.numero_departamento = d.numero_departamento) inner join trabalha_em as tb on (projeto.numero_projeto = tb.numero_projeto) where funcionario.cpf = trabalha_em.cpf_funcionario group by nome_completo_funcionario, nome_projeto, nome_departamento, horas;"
 
+#### Tabela a ser exibida:
 
-## QUESTÃO 12: XV
+| nome_completo_funcionario | nome_projeto    | horas | recebimento_horas |
+|---------------------------|-----------------|-------|-------------------|
+| Alice J Zelaya            | Informação      |  10.0 |            15.000 |
+| Alice J Zelaya            | Informação      |  30.0 |            45.000 |
+| Alice J Zelaya            | Novosbeneficios |  10.0 |            15.000 |
+| Alice J Zelaya            | Novosbeneficios |  30.0 |            45.000 |
+| Alice J Zelaya            | ProdutoX        |  10.0 |            10.000 |
+| Alice J Zelaya            | ProdutoX        |  30.0 |            30.000 |
+| Alice J Zelaya            | ProdutoY        |  10.0 |            15.000 |
+| Alice J Zelaya            | ProdutoY        |  30.0 |            45.000 |
+| Alice J Zelaya            | ProdutoZ        |  10.0 |            10.000 |
+| Alice J Zelaya            | ProdutoZ        |  30.0 |            30.000 |
+| Alice J Zelaya            | Reorganização   |  10.0 |            15.000 |
+| Alice J Zelaya            | Reorganização   |  30.0 |            45.000 |
+| André V Pereira           | Informação      |   5.0 |             7.500 |
+| André V Pereira           | Informação      |  35.0 |            52.500 |
+| André V Pereira           | Novosbeneficios |   5.0 |             7.500 |
+| André V Pereira           | Novosbeneficios |  35.0 |            52.500 |
+| André V Pereira           | ProdutoX        |   5.0 |             5.000 |
+| André V Pereira           | ProdutoX        |  35.0 |            35.000 |
+| André V Pereira           | ProdutoY        |   5.0 |             7.500 |
+| André V Pereira           | ProdutoY        |  35.0 |            52.500 |
+| André V Pereira           | ProdutoZ        |   5.0 |             5.000 |
+| André V Pereira           | ProdutoZ        |  35.0 |            35.000 |
+| André V Pereira           | Reorganização   |   5.0 |             7.500 |
+| André V Pereira           | Reorganização   |  35.0 |            52.500 |
+| Fernando T Wong           | Informação      |  10.0 |            60.000 |
+| Fernando T Wong           | Novosbeneficios |  10.0 |            60.000 |
+| Fernando T Wong           | ProdutoX        |  10.0 |            40.000 |
+| Fernando T Wong           | ProdutoY        |  10.0 |            60.000 |
+| Fernando T Wong           | ProdutoZ        |  10.0 |            40.000 |
+| Fernando T Wong           | Reorganização   |  10.0 |            60.000 |
+| Jennifer S Souza          | Informação      |  15.0 |            22.500 |
+| Jennifer S Souza          | Informação      |  20.0 |            30.000 |
+| Jennifer S Souza          | Novosbeneficios |  15.0 |            22.500 |
+| Jennifer S Souza          | Novosbeneficios |  20.0 |            30.000 |
+| Jennifer S Souza          | ProdutoX        |  15.0 |            15.000 |
+| Jennifer S Souza          | ProdutoX        |  20.0 |            20.000 |
+| Jennifer S Souza          | ProdutoY        |  15.0 |            22.500 |
+| Jennifer S Souza          | ProdutoY        |  20.0 |            30.000 |
+| Jennifer S Souza          | ProdutoZ        |  15.0 |            15.000 |
+| Jennifer S Souza          | ProdutoZ        |  20.0 |            20.000 |
+| Jennifer S Souza          | Reorganização   |  15.0 |            22.500 |
+| Jennifer S Souza          | Reorganização   |  20.0 |            30.000 |
+| João B Silva              | Informação      |   7.5 |            11.250 |
+| João B Silva              | Informação      |  32.5 |            48.750 |
+| João B Silva              | Novosbeneficios |   7.5 |            11.250 |
+| João B Silva              | Novosbeneficios |  32.5 |            48.750 |
+| João B Silva              | ProdutoX        |   7.5 |             7.500 |
+| João B Silva              | ProdutoX        |  32.5 |            32.500 |
+| João B Silva              | ProdutoY        |   7.5 |            11.250 |
+| João B Silva              | ProdutoY        |  32.5 |            48.750 |
+| João B Silva              | ProdutoZ        |   7.5 |             7.500 |
+| João B Silva              | ProdutoZ        |  32.5 |            32.500 |
+| João B Silva              | Reorganização   |   7.5 |            11.250 |
+| João B Silva              | Reorganização   |  32.5 |            48.750 |
+| Joice A Leite             | Informação      |  20.0 |            60.000 |
+| Joice A Leite             | Novosbeneficios |  20.0 |            60.000 |
+| Joice A Leite             | ProdutoX        |  20.0 |            40.000 |
+| Joice A Leite             | ProdutoY        |  20.0 |            60.000 |
+| Joice A Leite             | ProdutoZ        |  20.0 |            40.000 |
+| Joice A Leite             | Reorganização   |  20.0 |            60.000 |
+| Jorge E Brito             | Informação      |   0.0 |             0.000 |
+| Jorge E Brito             | Novosbeneficios |   0.0 |             0.000 |
+| Jorge E Brito             | ProdutoX        |   0.0 |             0.000 |
+| Jorge E Brito             | ProdutoY        |   0.0 |             0.000 |
+| Jorge E Brito             | ProdutoZ        |   0.0 |             0.000 |
+| Jorge E Brito             | Reorganização   |   0.0 |             0.000 |
+| Ronaldo K Lima            | Informação      |  40.0 |            60.000 |
+| Ronaldo K Lima            | Novosbeneficios |  40.0 |            60.000 |
+| Ronaldo K Lima            | ProdutoX        |  40.0 |            40.000 |
+| Ronaldo K Lima            | ProdutoY        |  40.0 |            60.000 |
+| Ronaldo K Lima            | ProdutoZ        |  40.0 |            40.000 |
+| Ronaldo K Lima            | Reorganização   |  40.0 |            60.000 |
+
+## QUESTÃO 12: 
 ### seu chefe está verificando as horas trabalhadas pelos funcionários nos projetos e percebeu que alguns funcionários, mesmo estando alocadas à algum projeto, não registraram nenhuma hora trabalhada. Sua tarefa é preparar um relatório que liste o nome do departamento, o nome do projeto e o nome dos funcionários que, mesmo estando alocados a algum projeto, não registraram nenhuma hora trabalhada.
 
 #### "select concat(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) as nome_completo, departamento.nome_departamento, projeto.nome_projeto from (funcionario, departamento, projeto) inner join funcionario as f on (departamento.cpf_gerente = f.cpf) inner join projeto as p on (departamento.numero_departamento = p.numero_departamento) inner join trabalha_em as tb on (p.numero_projeto = tb.numero_projeto) where tb.horas = 0.0 and funcionario.cpf = tb.cpf_funcionario group by projeto.nome_projeto, departamento.nome_departamento, nome_completo;"
+
+#### Tabela a ser exibida:
+
+| nome_completo | nome_departamento | nome_projeto    |
+|---------------|-------------------|-----------------|
+| Jorge E Brito | Matriz            | Informação      |
+| Jorge E Brito | Matriz            | Novosbeneficios |
+| Jorge E Brito | Matriz            | ProdutoX        |
+| Jorge E Brito | Matriz            | ProdutoY        |
+| Jorge E Brito | Matriz            | ProdutoZ        |
+| Jorge E Brito | Matriz            | Reorganização   |
 
 
 
 ## QUESTÃO 13: X
 ### durante o natal deste ano a empresa irá presentear todos os funcionários e todos os dependentes (sim, a empresa vai dar um presente para cada funcionário e um presente para cada dependente de cada funcionário) e pediu para que você preparasse um relatório que listasse o nome completo das pessoas a serem presenteadas (funcionários e dependentes), o sexo e a idade em anos completos (para poder comprar um presente adequado). Esse relatório deve estar ordenado pela idade em anos completos, de forma decrescente.
 
+#### "
+
+
 ## QUESTÃO 14: X
 ### prepare um relatório que exiba quantos funcionários cada departamento tem.
 
-## QUESTÃO 15: X
+#### "
+
+
+## QUESTÃO 15: 
 ### como um funcionário pode estar alocado em mais de um projeto, prepare um relatório que exiba o nome completo do funcionário, o departamento desse funcionário e o nome dos projetos em que cada funcionário está alocado. Atenção: se houver algum funcionário que não está alocado em nenhum projeto, o nome completo e o departamento também devem aparecer no relatório.
+
+#### SELECT DISTINCT CONCAT(f.primeiro_nome, " ", f.nome_meio, " ", f.ultimo_nome) AS "Nomes_completos:",
+ dpt.nome_departamento AS "Departamentos:", p.nome_projeto AS "Projetos:"
+ from departamento AS dpt
+ inner join projeto AS p 
+ inner join trabalha_em AS tb 
+ inner join funcionario AS f 
+ where dpt.numero_departamento = f.numero_departamento 
+ and p.numero_projeto = tb.numero_projeto 
+ and tb.cpf_funcionario = f.cpf
+ order by p.nome_projeto desc;
+
+#### Tabela a ser exibida:
+
+| Nomes_Completos: | Departamentos:  | Projetos:       |
+|------------------|-----------------|-----------------|
+| Fernando T Wong  | Pesquisa        | Reorganização   |
+| Jorge E Brito    | Matriz          | Reorganização   |
+| Jennifer S Souza | Administração   | Reorganização   |
+| Fernando T Wong  | Pesquisa        | ProdutoZ        |
+| Ronaldo K Lima   | Pesquisa        | ProdutoZ        |
+| João B Silva     | Pesquisa        | ProdutoY        |
+| Fernando T Wong  | Pesquisa        | ProdutoY        |
+| Joice A Leite    | Pesquisa        | ProdutoY        |
+| João B Silva     | Pesquisa        | ProdutoX        |
+| Joice A Leite    | Pesquisa        | ProdutoX        |
+| Jennifer S Souza | Administração   | Novosbeneficios |
+| André V Pereira  | Administração   | Novosbeneficios |
+| Alice J Zelaya   | Administração   | Novosbeneficios |
+| Fernando T Wong  | Pesquisa        | Informação      |
+| André V Pereira  | Administração   | Informação      |
+| Alice J Zelaya   | Administração   | Informação      |
+
+
+
+
+
+
+
+
+
+
+
