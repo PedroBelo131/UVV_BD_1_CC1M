@@ -311,13 +311,24 @@
 ## QUESTÃO 13: X
 ### durante o natal deste ano a empresa irá presentear todos os funcionários e todos os dependentes (sim, a empresa vai dar um presente para cada funcionário e um presente para cada dependente de cada funcionário) e pediu para que você preparasse um relatório que listasse o nome completo das pessoas a serem presenteadas (funcionários e dependentes), o sexo e a idade em anos completos (para poder comprar um presente adequado). Esse relatório deve estar ordenado pela idade em anos completos, de forma decrescente.
 
-#### "
+#### "select concat(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) as nome_completo_funcionario, concat(dependente.nome_dependente, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) as nome_completo_dependente, funcionario.sexo as sexo_funcionario, dependente.sexo as sexo_dependente, concat(funcionario.idade, " anos") as idade_funcionario, concat(year(curdate())-year(dependente.data_nascimento)," anos") as idade_dependente from (funcionario, dependente) inner join dependente as d on (funcionario.cpf = d.cpf_funcionario) group by nome_completo_funcionario, nome_completo_dependente, idade_funcionario, idade_dependente order by idade_funcionario desc, idade_dependente desc;"
+
+#### Tabela a ser exibida:
 
 
 ## QUESTÃO 14: X
 ### prepare um relatório que exiba quantos funcionários cada departamento tem.
 
-#### "
+#### "select concat("Departamento ", departamento.numero_departamento, " ", departamento.nome_departamento) as departamento, count(funcionario.cpf) as numero_de_funcionarios from (departamento, funcionario) inner join funcionario as f on (departamento.numero_departamento = f.numero_departamento) where funcionario.cpf = departamento.cpf_gerente group by departamento.numero_departamento;"
+
+#### Tabela a ser exibida:
+
+| departamento                   | numero_de_funcionarios |
+|--------------------------------|------------------------|
+| Departamento 1 Matriz          |                      1 |
+| Departamento 4 Administração   |                      3 |
+| Departamento 5 Pesquisa        |                      4 |
+
 
 
 ## QUESTÃO 15: 
