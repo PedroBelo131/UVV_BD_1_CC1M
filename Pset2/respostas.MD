@@ -107,8 +107,12 @@
 ## QUESTÃO 11: X
 ### considerando que o valor pago por hora trabalhada em um projeto é de 50 reais, prepare um relatório que mostre o nome completo do funcionário, o nome do projeto e o valor total que o funcionário receberá referente às horas trabalhadas naquele projeto.
 
-## QUESTÃO 12: X
+## QUESTÃO 12: XV
 ### seu chefe está verificando as horas trabalhadas pelos funcionários nos projetos e percebeu que alguns funcionários, mesmo estando alocadas à algum projeto, não registraram nenhuma hora trabalhada. Sua tarefa é preparar um relatório que liste o nome do departamento, o nome do projeto e o nome dos funcionários que, mesmo estando alocados a algum projeto, não registraram nenhuma hora trabalhada.
+
+#### "select concat(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) as nome_completo, departamento.nome_departamento, projeto.nome_projeto from (funcionario, departamento, projeto) inner join funcionario as f on (departamento.cpf_gerente = f.cpf) inner join projeto as p on (departamento.numero_departamento = p.numero_departamento) inner join trabalha_em as tb on (p.numero_projeto = tb.numero_projeto) where tb.horas = 0.0 and funcionario.cpf = tb.cpf_funcionario group by projeto.nome_projeto, departamento.nome_departamento, nome_completo;"
+
+
 
 ## QUESTÃO 13: X
 ### durante o natal deste ano a empresa irá presentear todos os funcionários e todos os dependentes (sim, a empresa vai dar um presente para cada funcionário e um presente para cada dependente de cada funcionário) e pediu para que você preparasse um relatório que listasse o nome completo das pessoas a serem presenteadas (funcionários e dependentes), o sexo e a idade em anos completos (para poder comprar um presente adequado). Esse relatório deve estar ordenado pela idade em anos completos, de forma decrescente.
