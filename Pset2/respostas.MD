@@ -92,7 +92,7 @@
 #### "SELECT CONCAT("Departamento ", departamento.numero_departamento, " ", departamento.nome_departamento) AS departamento_e_nome, projeto.nome_projeto, CONCAT(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) AS nome_completo_funcionario, trabalha_em.horas FROM funcionario INNER JOIN departamento ON funcionario.numero_departamento = departamento.numero_departamento INNER JOIN projeto AS p ON departamento.numero_departamento = p.numero_departamento INNER JOIN trabalha_em ON funcionario.cpf = trabalha_em.cpf_funcionario INNER JOIN projeto ON trabalha_em.numero_projeto = projeto.numero_projeto WHERE funcionario.numero_departamento = projeto.numero_departamento GROUP BY departamento_e_nome, nome_projeto, nome_completo_funcionario, horas;"
 
 
-## QUESTÃO 09: X
+## QUESTÃO 09: XV
 ### prepare um relatório que mostre a soma total das horas de cada projeto em cada departamento. Obs.: o relatório deve exibir o nome do departamento, o nome do projeto e a soma total das horas.
 
 #### "SELECT DISTINCT departamento.nome_departamento, projeto.nome_projeto, sum(trabalha_em.horas) AS soma_das_horas FROM (departamento, projeto, trabalha_em) INNER JOIN departamento AS d ON (projeto.numero_departamento = d.numero_departamento) INNER JOIN trabalha_em AS tb ON (projeto.numero_projeto = tb.numero_projeto) GROUP BY nome_projeto, nome_departamento;"
@@ -104,8 +104,11 @@
 #### "select avg(salario) from funcionario;" sera exibido a media salarial dos funcionarios que é de: 35125.00
 
 
-## QUESTÃO 11: X
+## QUESTÃO 11: XV
 ### considerando que o valor pago por hora trabalhada em um projeto é de 50 reais, prepare um relatório que mostre o nome completo do funcionário, o nome do projeto e o valor total que o funcionário receberá referente às horas trabalhadas naquele projeto.
+
+#### "select concat(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) as nome_completo_funcionario, projeto.nome_projeto, trabalha_em.horas, sum(trabalha_em.horas)*0.50 as recebimento_horas from (funcionario, projeto, trabalha_em) inner join departamento as d on (projeto.numero_departamento = d.numero_departamento) inner join trabalha_em as tb on (projeto.numero_projeto = tb.numero_projeto) where funcionario.cpf = trabalha_em.cpf_funcionario group by nome_completo_funcionario, nome_projeto, nome_departamento, horas;"
+
 
 ## QUESTÃO 12: XV
 ### seu chefe está verificando as horas trabalhadas pelos funcionários nos projetos e percebeu que alguns funcionários, mesmo estando alocadas à algum projeto, não registraram nenhuma hora trabalhada. Sua tarefa é preparar um relatório que liste o nome do departamento, o nome do projeto e o nome dos funcionários que, mesmo estando alocados a algum projeto, não registraram nenhuma hora trabalhada.
