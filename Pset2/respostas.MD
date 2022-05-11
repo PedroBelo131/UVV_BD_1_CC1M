@@ -152,7 +152,7 @@
 #### A tabela retornara assim:
 
 | departamento_e_nome            | nome_projeto    | nome_completo_funcionario | horas |
-+--------------------------------+-----------------+---------------------------+-------+
+|--------------------------------|-----------------|---------------------------|-------|
 | Departamento 1 Matriz          | Reorganização   | Jorge E Brito             |   0.0 |
 | Departamento 4 Administração   | Informação      | Alice J Zelaya            |  10.0 |
 | Departamento 4 Administração   | Informação      | André V Pereira           |  35.0 |
