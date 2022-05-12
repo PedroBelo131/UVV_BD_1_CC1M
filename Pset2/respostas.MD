@@ -335,29 +335,19 @@
 ## QUESTÃO 13: 
 ### durante o natal deste ano a empresa irá presentear todos os funcionários e todos os dependentes (sim, a empresa vai dar um presente para cada funcionário e um presente para cada dependente de cada funcionário) e pediu para que você preparasse um relatório que listasse o nome completo das pessoas a serem presenteadas (funcionários e dependentes), o sexo e a idade em anos completos (para poder comprar um presente adequado). Esse relatório deve estar ordenado pela idade em anos completos, de forma decrescente.
 
-#### "select 
-#### concat(f.primeiro_nome, " ", f.nome_meio, " ", f.ultimo_nome) as nome_completo_funcionario, 
-#### concat(d.nome_dependente, " ", f.nome_meio, " ", f.ultimo_nome) as nome_completo_dependente, 
-#### f.sexo as sexo_funcionario, 
-#### d.sexo as sexo_dependente, 
-#### concat(f.idade, " anos") as idade_funcionario, 
-#### concat(year(curdate())-year(d.data_nascimento)," anos") as idade_dependente 
-#### from (funcionario AS f, dependente, departamento AS dp) 
-#### inner join dependente as d on (f.cpf = d.cpf_funcionario AND dp.numero_departamento = f.numero_departamento) 
-#### group by nome_completo_funcionario, nome_completo_dependente, idade_funcionario, idade_dependente 
-#### order by idade_funcionario desc, idade_dependente desc;"
+#### " select concat(f.primeiro_nome, " ", f.nome_meio, " ", f.ultimo_nome) as nome_completo_funcionario,  concat(d.nome_dependente, " ", f.nome_meio, " ", f.ultimo_nome) as nome_completo_dependente,  case f.sexo when f.sexo = "M" then "Masculino" when f.sexo = "F" then "Feminino" end as sexo_funcionario,   case d.sexo when d.sexo = "M" then "Masculino" when d.sexo = "F" then "Feminino" end as sexo_dependente, concat(f.idade, " anos") as idade_funcionario,  concat(year(curdate())-year(d.data_nascimento)," anos") as idade_dependente  from (funcionario AS f, dependente, departamento AS dp)  inner join dependente as d  on (f.cpf = d.cpf_funcionario AND dp.numero_departamento = f.numero_departamento)  group by nome_completo_funcionario, nome_completo_dependente, idade_funcionario, idade_dependente  order by idade_funcionario desc, idade_dependente desc; "
 
 #### Tabela a ser exibida:
 
 | nome_completo_funcionario | nome_completo_dependente | sexo_funcionario | sexo_dependente | idade_funcionario | idade_dependente |
 |---------------------------|--------------------------|------------------|-----------------|-------------------|------------------|
-| Jennifer S Souza          | Antonio S Souza          | F                | M               | 81 anos           | 80 anos          |
-| Fernando T Wong           | Janaina T Wong           | M                | F               | 67 anos           | 64 anos          |
-| Fernando T Wong           | Tiago T Wong             | M                | M               | 67 anos           | 39 anos          |
-| Fernando T Wong           | Alicia T Wong            | M                | F               | 67 anos           | 36 anos          |
-| João B Silva              | Elizabeth B Silva        | M                | F               | 58 anos           | 55 anos          |
-| João B Silva              | Alicia B Silva           | M                | F               | 58 anos           | 34 anos          |
-| João B Silva              | Michael B Silva          | M                | M               | 58 anos           | 34 anos          |
+| Jennifer S Souza          | Antonio S Souza          | Masculino        | Feminino        | 81 anos           | 80 anos          |
+| Fernando T Wong           | Janaina T Wong           | Feminino         | Masculino       | 67 anos           | 64 anos          |
+| Fernando T Wong           | Tiago T Wong             | Feminino         | Feminino        | 67 anos           | 39 anos          |
+| Fernando T Wong           | Alicia T Wong            | Feminino         | Masculino       | 67 anos           | 36 anos          |
+| João B Silva              | Elizabeth B Silva        | Feminino         | Masculino       | 58 anos           | 55 anos          |
+| João B Silva              | Alicia B Silva           | Feminino         | Masculino       | 58 anos           | 34 anos          |
+| João B Silva              | Michael B Silva          | Feminino         | Feminino        | 58 anos           | 34 anos          |
 
 
 
