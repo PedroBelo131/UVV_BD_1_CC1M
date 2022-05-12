@@ -50,6 +50,17 @@
 #### este comando fara com que nos retorne uma projeção das duas tabelas mostrando todas as informações necessárias.
 #### A tabela ficara assim:
 
+| nome_completo    | nome_departamento | data_nascimento | idade | salario  |
+|------------------|-------------------|-----------------|-------|----------|
+| João B Silva     | Pesquisa          | 1965-01-09      |    58 | 30000.00 |
+| Fernando T Wong  | Pesquisa          | 1955-12-08      |    67 | 40000.00 |
+| Joice A Leite    | Pesquisa          | 1972-07-31      |    50 | 25000.00 |
+| Ronaldo K Lima   | Pesquisa          | 1962-09-15      |    60 | 38000.00 |
+| Jorge E Brito    | Matriz            | 1937-11-10      |    85 | 55000.00 |
+| Jennifer S Souza | Administração     | 1941-06-20      |    81 | 43000.00 |
+| André V Pereira  | Administração     | 1969-03-29      |    84 | 25000.00 |
+| Alice J Zelaya   | Administração     | 1968-01-19      |    55 | 25000.00 |
+
 
 ## QUESTÃO 04: 
 ### prepare um relatório que mostre o nome completo dos funcionários, a idade em anos completos, o salário atual e o salário com um reajuste que obedece ao seguinte critério: se o salário atual do funcionário é inferior a 35.000 o reajuste deve ser de 20%, e se o salário atual do funcionário for igual ou superior a 35.000 o reajuste deve ser de 15%.
@@ -64,8 +75,21 @@
 
 #### O funcionamento da função "CASE" é determinado pelas condições nela especificadas. Nesse caso, a condição é representada pela função "WHEN" que significa que quando algo acontecer é para acontecer outra coisa. Com essa estrutura de código, informamos ao comando UPDATE para atualizar a coluna 'salario_reajustado' quando o valor do salário for menor que 35000, preencha a coluna com o resultado da operação matemática de aumento de 20%, e quando for maior ou igual para 35.000, com um aumento de apenas 15% no preenchimento da coluna. Por fim, agora só precisamos usar o comando SELECT para exibir as informações que queremos, usando CONCAT para unir primeiro_nome, nome_meio, ultimo_nome para forma uma coluna só "nome_completo" o comando ficara assim:
 
-#### SELECT CONCAT(primeiro_nome, " ", nome_meio, " ", ultimo_nome) AS "nome_completo", idade, salario, salario_reajustado FROM funcionario;
-#### Assim eexibindo todas as informações requeridas no relatório.
+#### "SELECT CONCAT(primeiro_nome, " ", nome_meio, " ", ultimo_nome) AS "nome_completo", idade, salario, salario_reajustado FROM funcionario;"
+#### Assim exibindo todas as informações requeridas no relatório.
+#### A tabela ficara assim:
+
+| nome_completo    | idade | salario  | salario_reajustado |
+|------------------|-------|----------|--------------------|
+| João B Silva     |    58 | 30000.00 |           36000.00 |
+| Fernando T Wong  |    67 | 40000.00 |           46000.00 |
+| Joice A Leite    |    50 | 25000.00 |           30000.00 |
+| Ronaldo K Lima   |    60 | 38000.00 |           43700.00 |
+| Jorge E Brito    |    85 | 55000.00 |           63250.00 |
+| Jennifer S Souza |    81 | 43000.00 |           49450.00 |
+| André V Pereira  |    84 | 25000.00 |           30000.00 |
+| Alice J Zelaya   |    55 | 25000.00 |           30000.00 |
+
 
 
 ## QUESTÃO 05: 
@@ -128,7 +152,7 @@
 | Administração     | Jennifer S Souza          | Antonio S Souza          |               80 | Masculino       |
 
 
-## QUESTÃO 07: X
+## QUESTÃO 07: 
 ### prepare um relatório que mostre, para cada funcionário que NÃO TEM dependente, seu nome completo, departamento e salário.
 
 #### "SELECT departamento.nome_departamento, CONCAT(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) AS nome_completo_funcionario, funcionario.salario FROM funcionario LEFT JOIN dependente ON funcionario.cpf = dependente.cpf_funcionario INNER JOIN departamento ON funcionario.numero_departamento = departamento.numero_departamento WHERE dependente.cpf_funcionario IS null;"
@@ -144,7 +168,7 @@
 | Administração     | Alice J Zelaya            | 25000.00 |
 
 
-## QUESTÃO 08: X
+## QUESTÃO 08: 
 ### prepare um relatório que mostre, para cada departamento, os projetos desse departamento e o nome completo dos funcionários que estão alocados em cada projeto. Além disso inclua o número de horas trabalhadas por cada funcionário, em cada projeto.
 
 #### "SELECT CONCAT("Departamento ", departamento.numero_departamento, " ", departamento.nome_departamento) AS departamento_e_nome, projeto.nome_projeto, CONCAT(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) AS nome_completo_funcionario, trabalha_em.horas FROM funcionario INNER JOIN departamento ON funcionario.numero_departamento = departamento.numero_departamento INNER JOIN projeto AS p ON departamento.numero_departamento = p.numero_departamento INNER JOIN trabalha_em ON funcionario.cpf = trabalha_em.cpf_funcionario INNER JOIN projeto ON trabalha_em.numero_projeto = projeto.numero_projeto WHERE funcionario.numero_departamento = projeto.numero_departamento GROUP BY departamento_e_nome, nome_projeto, nome_completo_funcionario, horas;"
@@ -316,7 +340,7 @@
 #### Tabela a ser exibida:
 
 | nome_completo_funcionario | nome_completo_dependente | sexo_funcionario | sexo_dependente | idade_funcionario | idade_dependente |
-+---------------------------+--------------------------+------------------+-----------------+-------------------+------------------+
+|---------------------------|--------------------------|------------------|-----------------|-------------------|------------------|
 | Jennifer S Souza          | Antonio S Souza          | F                | M               | 81 anos           | 80 anos          |
 | Fernando T Wong           | Janaina T Wong           | M                | F               | 67 anos           | 64 anos          |
 | Fernando T Wong           | Tiago T Wong             | M                | M               | 67 anos           | 39 anos          |
@@ -327,7 +351,7 @@
 
 
 
-## QUESTÃO 14: X
+## QUESTÃO 14: 
 ### prepare um relatório que exiba quantos funcionários cada departamento tem.
 
 #### "select concat("Departamento ", departamento.numero_departamento, " ", departamento.nome_departamento) as departamento, count(funcionario.cpf) as numero_de_funcionarios from (departamento, funcionario) inner join funcionario as f on (departamento.numero_departamento = f.numero_departamento) where funcionario.cpf = departamento.cpf_gerente group by departamento.numero_departamento;"
