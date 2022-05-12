@@ -167,7 +167,7 @@
 
 
 
-## QUESTÃO 09: XV
+## QUESTÃO 09: 
 ### prepare um relatório que mostre a soma total das horas de cada projeto em cada departamento. Obs.: o relatório deve exibir o nome do departamento, o nome do projeto e a soma total das horas.
 
 #### "SELECT DISTINCT departamento.nome_departamento, projeto.nome_projeto, sum(trabalha_em.horas) AS soma_das_horas FROM (departamento, projeto, trabalha_em) INNER JOIN departamento AS d ON (projeto.numero_departamento = d.numero_departamento) INNER JOIN trabalha_em AS tb ON (projeto.numero_projeto = tb.numero_projeto) GROUP BY nome_projeto, nome_departamento;"
@@ -208,7 +208,7 @@
 | 35125.000000 |
 
 
-## QUESTÃO 11: XV
+## QUESTÃO 11: 
 ### considerando que o valor pago por hora trabalhada em um projeto é de 50 reais, prepare um relatório que mostre o nome completo do funcionário, o nome do projeto e o valor total que o funcionário receberá referente às horas trabalhadas naquele projeto.
 
 #### "select concat(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) as nome_completo_funcionario, projeto.nome_projeto, trabalha_em.horas, sum(trabalha_em.horas)*0.50 as recebimento_horas from (funcionario, projeto, trabalha_em) inner join departamento as d on (projeto.numero_departamento = d.numero_departamento) inner join trabalha_em as tb on (projeto.numero_projeto = tb.numero_projeto) where funcionario.cpf = trabalha_em.cpf_funcionario group by nome_completo_funcionario, nome_projeto, nome_departamento, horas;"
@@ -308,12 +308,23 @@
 
 
 
-## QUESTÃO 13: X
+## QUESTÃO 13: 
 ### durante o natal deste ano a empresa irá presentear todos os funcionários e todos os dependentes (sim, a empresa vai dar um presente para cada funcionário e um presente para cada dependente de cada funcionário) e pediu para que você preparasse um relatório que listasse o nome completo das pessoas a serem presenteadas (funcionários e dependentes), o sexo e a idade em anos completos (para poder comprar um presente adequado). Esse relatório deve estar ordenado pela idade em anos completos, de forma decrescente.
 
-#### "select concat(funcionario.primeiro_nome, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) as nome_completo_funcionario, concat(dependente.nome_dependente, " ", funcionario.nome_meio, " ", funcionario.ultimo_nome) as nome_completo_dependente, funcionario.sexo as sexo_funcionario, dependente.sexo as sexo_dependente, concat(funcionario.idade, " anos") as idade_funcionario, concat(year(curdate())-year(dependente.data_nascimento)," anos") as idade_dependente from (funcionario, dependente) inner join dependente as d on (funcionario.cpf = d.cpf_funcionario) group by nome_completo_funcionario, nome_completo_dependente, idade_funcionario, idade_dependente order by idade_funcionario desc, idade_dependente desc;"
+#### "select concat(f.primeiro_nome, " ", f.nome_meio, " ", f.ultimo_nome) as nome_completo_funcionario, concat(d.nome_dependente, " ", f.nome_meio, " ", f.ultimo_nome) as nome_completo_dependente, f.sexo as sexo_funcionario, d.sexo as sexo_dependente, concat(f.idade, " anos") as idade_funcionario, concat(year(curdate()) year(d.data_nascimento)," anos") as idade_dependente from (funcionario AS f, dependente, departamento AS dp) inner join dependente as d on (f.cpf = d.cpf_funcionario AND dp.numero_departamento = f.numero_departamento) group by nome_completo_funcionario, nome_completo_dependente, idade_funcionario, idade_dependente order by idade_funcionario desc, idade_dependente desc;"
 
 #### Tabela a ser exibida:
+
+| nome_completo_funcionario | nome_completo_dependente | sexo_funcionario | sexo_dependente | idade_funcionario | idade_dependente |
++---------------------------+--------------------------+------------------+-----------------+-------------------+------------------+
+| Jennifer S Souza          | Antonio S Souza          | F                | M               | 81 anos           | 80 anos          |
+| Fernando T Wong           | Janaina T Wong           | M                | F               | 67 anos           | 64 anos          |
+| Fernando T Wong           | Tiago T Wong             | M                | M               | 67 anos           | 39 anos          |
+| Fernando T Wong           | Alicia T Wong            | M                | F               | 67 anos           | 36 anos          |
+| João B Silva              | Elizabeth B Silva        | M                | F               | 58 anos           | 55 anos          |
+| João B Silva              | Alicia B Silva           | M                | F               | 58 anos           | 34 anos          |
+| João B Silva              | Michael B Silva          | M                | M               | 58 anos           | 34 anos          |
+
 
 
 ## QUESTÃO 14: X
