@@ -369,16 +369,7 @@
 ## QUESTÃO 15: 
 ### como um funcionário pode estar alocado em mais de um projeto, prepare um relatório que exiba o nome completo do funcionário, o departamento desse funcionário e o nome dos projetos em que cada funcionário está alocado. Atenção: se houver algum funcionário que não está alocado em nenhum projeto, o nome completo e o departamento também devem aparecer no relatório.
 
-#### SELECT DISTINCT CONCAT(f.primeiro_nome, " ", f.nome_meio, " ", f.ultimo_nome) AS "Nomes_completos:",
- dpt.nome_departamento AS "Departamentos:", p.nome_projeto AS "Projetos:"
- from departamento AS dpt
- inner join projeto AS p 
- inner join trabalha_em AS tb 
- inner join funcionario AS f 
- where dpt.numero_departamento = f.numero_departamento 
- and p.numero_projeto = tb.numero_projeto 
- and tb.cpf_funcionario = f.cpf
- order by p.nome_projeto desc;
+#### SELECT DISTINCT CONCAT(f.primeiro_nome, " ", f.nome_meio, " ", f.ultimo_nome) AS "Nomes_completos:", dpt.nome_departamento AS "Departamentos:", p.nome_projeto AS "Projetos:" from departamento AS dpt inner join projeto AS p inner join trabalha_em AS tb inner join funcionario AS f where dpt.numero_departamento = f.numero_departamento and p.numero_projeto = tb.numero_projeto and tb.cpf_funcionario = f.cpf order by p.nome_projeto desc;
 
 #### Tabela a ser exibida:
 
