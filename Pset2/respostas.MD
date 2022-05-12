@@ -335,7 +335,17 @@
 ## QUESTÃO 13: 
 ### durante o natal deste ano a empresa irá presentear todos os funcionários e todos os dependentes (sim, a empresa vai dar um presente para cada funcionário e um presente para cada dependente de cada funcionário) e pediu para que você preparasse um relatório que listasse o nome completo das pessoas a serem presenteadas (funcionários e dependentes), o sexo e a idade em anos completos (para poder comprar um presente adequado). Esse relatório deve estar ordenado pela idade em anos completos, de forma decrescente.
 
-#### "select concat(f.primeiro_nome, " ", f.nome_meio, " ", f.ultimo_nome) as nome_completo_funcionario, concat(d.nome_dependente, " ", f.nome_meio, " ", f.ultimo_nome) as nome_completo_dependente, f.sexo as sexo_funcionario, d.sexo as sexo_dependente, concat(f.idade, " anos") as idade_funcionario, concat(year(curdate()) year(d.data_nascimento)," anos") as idade_dependente from (funcionario AS f, dependente, departamento AS dp) inner join dependente as d on (f.cpf = d.cpf_funcionario AND dp.numero_departamento = f.numero_departamento) group by nome_completo_funcionario, nome_completo_dependente, idade_funcionario, idade_dependente order by idade_funcionario desc, idade_dependente desc;"
+#### "select 
+#### concat(f.primeiro_nome, " ", f.nome_meio, " ", f.ultimo_nome) as nome_completo_funcionario, 
+#### concat(d.nome_dependente, " ", f.nome_meio, " ", f.ultimo_nome) as nome_completo_dependente, 
+#### f.sexo as sexo_funcionario, 
+#### d.sexo as sexo_dependente, 
+#### concat(f.idade, " anos") as idade_funcionario, 
+#### concat(year(curdate())-year(d.data_nascimento)," anos") as idade_dependente 
+#### from (funcionario AS f, dependente, departamento AS dp) 
+#### inner join dependente as d on (f.cpf = d.cpf_funcionario AND dp.numero_departamento = f.numero_departamento) 
+#### group by nome_completo_funcionario, nome_completo_dependente, idade_funcionario, idade_dependente 
+#### order by idade_funcionario desc, idade_dependente desc;"
 
 #### Tabela a ser exibida:
 
