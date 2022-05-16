@@ -1,4 +1,5 @@
 # Relatórios SQL a serem desenvolvidos
+# Alunos que me ajudaram a fazer este trabalho: Marne Silva, Sthefany Sobrinho.
 
 ## QUESTÃO 01: 
 ### prepare um relatório que mostre a média salarial dos funcionários de cada departamento.
